@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<FlowMonitor>
+  <FlowStats>
+    <Flow flowId="1" timeFirstTxPacket="+967956909.0ns" timeFirstRxPacket="+975978073.0ns" timeLastTxPacket="+99407095279.0ns" timeLastRxPacket="+99407112399.0ns" delaySum="+106238604.0ns" jitterSum="+8004044.0ns" lastDelay="+17120.0ns" txBytes="6036376" rxBytes="6036376" txPackets="5738" rxPackets="5738" lostPackets="0" timesForwarded="0">
+      <delayHistogram nBins="9" >
+        <bin index="0" start="0" width="0.001" count="5737" />
+        <bin index="8" start="0.008" width="0.001" count="1" />
+      </delayHistogram>
+      <jitterHistogram nBins="9" >
+        <bin index="0" start="0" width="0.001" count="5736" />
+        <bin index="8" start="0.008" width="0.001" count="1" />
+      </jitterHistogram>
+      <packetSizeHistogram nBins="53" >
+        <bin index="52" start="1040" width="20" count="5738" />
+      </packetSizeHistogram>
+      <flowInterruptionsHistogram nBins="20" >
+        <bin index="2" start="0.5" width="0.25" count="9" />
+        <bin index="3" start="0.75" width="0.25" count="6" />
+        <bin index="4" start="1" width="0.25" count="6" />
+        <bin index="5" start="1.25" width="0.25" count="5" />
+        <bin index="6" start="1.5" width="0.25" count="1" />
+        <bin index="7" start="1.75" width="0.25" count="2" />
+        <bin index="8" start="2" width="0.25" count="1" />
+        <bin index="11" start="2.75" width="0.25" count="1" />
+        <bin index="13" start="3.25" width="0.25" count="1" />
+        <bin index="18" start="4.5" width="0.25" count="1" />
+        <bin index="19" start="4.75" width="0.25" count="1" />
+      </flowInterruptionsHistogram>
+    </Flow>
+  </FlowStats>
+  <Ipv4FlowClassifier>
+    <Flow flowId="1" sourceAddress="10.0.0.2" destinationAddress="10.0.0.3" protocol="17" sourcePort="49156" destinationPort="9" />
+  </Ipv4FlowClassifier>
+  <Ipv6FlowClassifier>
+  </Ipv6FlowClassifier>
+</FlowMonitor>

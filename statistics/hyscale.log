@@ -1,0 +1,18 @@
+Waf: Entering directory `/home/sksamal/990/ns-3-dev/build'
+[ 886/2314] cxx: scratch/HyScale.cc -> build/scratch/HyScale.cc.3.o
+[2299/2314] cxxprogram: build/scratch/HyScale.cc.3.o -> build/scratch/HyScale
+Waf: Leaving directory `/home/sksamal/990/ns-3-dev/build'
+'build' finished successfully (4.354s)
+Number of HyScale level =  2
+Number of switch in basic HyScale level =  8
+Number of host under each switch =  2
+Total number of host =  128
+Finished creating On/Off traffic
+Fininshed connecting switches to hosts
+Start Simulation.. 
+HyScale,k,txPackets,rxPackets,delaySum,jitterSum,lastDelay,lostPackets,timesForwarded,averageDelay,throughput
+HyScale,1,6022,6022,+103100684.0ns,+4044.0ns,+17120.0ns,0,0,17120,513.253
+Simulation finished 
+Waf: Entering directory `/home/sksamal/990/ns-3-dev/build'
+Waf: Leaving directory `/home/sksamal/990/ns-3-dev/build'
+'build' finished successfully (2.201s)

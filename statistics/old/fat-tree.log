@@ -1,0 +1,87 @@
+Waf: Entering directory `/home/sksamal/990/ns-3-dev/build'
+[ 887/2312] cxx: scratch/Fat-tree.cc -> build/scratch/Fat-tree.cc.4.o
+[2300/2312] cxxprogram: build/scratch/Fat-tree.cc.4.o -> build/scratch/Fat-tree
+Waf: Leaving directory `/home/sksamal/990/ns-3-dev/build'
+'build' finished successfully (4.608s)
+Value of k =  2
+Total number of hosts =  2
+Number of hosts under each switch =  1
+Number of edge switch under each pod =  1
+------------- 
+Finished creating On/Off traffic
+Finished connecting edge switches and hosts  
+Finished connecting aggregation switches and edge switches  
+Finished connecting core switches and aggregation switches  
+------------- 
+Start Simulation.. 
+Fat-Tree,k,txPackets,rxPackets,delaySum,jitterSum,lastDelay,lostPackets,timesForwarded,averageDelay,throughput
+Fat-Tree,2,11631,11631,+793543896.0ns,+3008088.0ns,+135936.0ns,0,58155,68232.5,489.714
+Simulation finished 
+Waf: Entering directory `/home/sksamal/990/ns-3-dev/build'
+Waf: Leaving directory `/home/sksamal/990/ns-3-dev/build'
+'build' finished successfully (2.285s)
+Value of k =  4
+Total number of hosts =  16
+Number of hosts under each switch =  2
+Number of edge switch under each pod =  2
+------------- 
+Finished creating On/Off traffic
+Finished connecting edge switches and hosts  
+Finished connecting aggregation switches and edge switches  
+Finished connecting core switches and aggregation switches  
+------------- 
+Start Simulation.. 
+Fat-Tree,k,txPackets,rxPackets,delaySum,jitterSum,lastDelay,lostPackets,timesForwarded,averageDelay,throughput
+Fat-Tree,4,95459,95459,+6078392078.0ns,+66003896.0ns,+1003168.0ns,0,419507,63536.1,498.975
+Simulation finished 
+Waf: Entering directory `/home/sksamal/990/ns-3-dev/build'
+Waf: Leaving directory `/home/sksamal/990/ns-3-dev/build'
+'build' finished successfully (2.218s)
+Value of k =  6
+Total number of hosts =  54
+Number of hosts under each switch =  3
+Number of edge switch under each pod =  3
+------------- 
+Finished creating On/Off traffic
+Finished connecting edge switches and hosts  
+Finished connecting aggregation switches and edge switches  
+Finished connecting core switches and aggregation switches  
+------------- 
+Start Simulation.. 
+Fat-Tree,k,txPackets,rxPackets,delaySum,jitterSum,lastDelay,lostPackets,timesForwarded,averageDelay,throughput
+Fat-Tree,6,323660,323660,+21632223101.0ns,+227384319.0ns,+3574623.0ns,0,1541152,66971.2,500.415
+Simulation finished 
+Waf: Entering directory `/home/sksamal/990/ns-3-dev/build'
+Waf: Leaving directory `/home/sksamal/990/ns-3-dev/build'
+'build' finished successfully (2.497s)
+Value of k =  8
+Total number of hosts =  128
+Number of hosts under each switch =  4
+Number of edge switch under each pod =  4
+------------- 
+Finished creating On/Off traffic
+Finished connecting edge switches and hosts  
+Finished connecting aggregation switches and edge switches  
+Finished connecting core switches and aggregation switches  
+------------- 
+Start Simulation.. 
+Fat-Tree,k,txPackets,rxPackets,delaySum,jitterSum,lastDelay,lostPackets,timesForwarded,averageDelay,throughput
+Fat-Tree,8,779246,779245,+51753171324.0ns,+561256756.0ns,+8403594.0ns,1,3683247,66476.7,508.236
+Simulation finished 
+Waf: Entering directory `/home/sksamal/990/ns-3-dev/build'
+Waf: Leaving directory `/home/sksamal/990/ns-3-dev/build'
+'build' finished successfully (2.378s)
+Value of k =  16
+Total number of hosts =  1024
+Number of hosts under each switch =  8
+Number of edge switch under each pod =  8
+------------- 
+Finished creating On/Off traffic
+Finished connecting edge switches and hosts  
+Finished connecting aggregation switches and edge switches  
+Finished connecting core switches and aggregation switches  
+------------- 
+Start Simulation.. 
+Fat-Tree,k,txPackets,rxPackets,delaySum,jitterSum,lastDelay,lostPackets,timesForwarded,averageDelay,throughput
+Fat-Tree,16,6199837,6199836,+422000447620.0ns,+4203515597.0ns,+68920931.0ns,1,30312433,68073.6,505.249
+Simulation finished 

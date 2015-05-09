@@ -1,0 +1,106 @@
+Waf: Entering directory `/home/sksamal/990/ns-3-dev/build'
+Waf: Leaving directory `/home/sksamal/990/ns-3-dev/build'
+'build' finished successfully (17.437s)
+Waf: Entering directory `/home/sksamal/990/ns-3-dev/build'
+[ 889/2312] cxx: scratch/BCube.cc -> build/scratch/BCube.cc.6.o
+[2292/2312] cxxprogram: build/scratch/BCube.cc.6.o -> build/scratch/BCube
+Waf: Leaving directory `/home/sksamal/990/ns-3-dev/build'
+'build' finished successfully (27.424s)
+Number of BCube level =  3
+Number of switch in each BCube level =  4
+Number of host under each switch =  2
+Total number of host =  8
+Finished creating On/Off traffic
+Fininshed BCube 0 connection
+Fininshed BCube 1 connection
+Fininshed BCube 2 connection
+------------- 
+Start Simulation.. 
+BCube,k,txPackets,rxPackets,delaySum,jitterSum,lastDelay,lostPackets,timesForwarded,averageDelay,throughput
+BCube,2,48711,48711,+1424603116.0ns,+48036396.0ns,+222560.0ns,0,31600,28821.6,504.828
+Simulation finished 
+Waf: Entering directory `/home/sksamal/990/ns-3-dev/build'
+Waf: Leaving directory `/home/sksamal/990/ns-3-dev/build'
+'build' finished successfully (2.364s)
+Number of BCube level =  3
+Number of switch in each BCube level =  16
+Number of host under each switch =  4
+Total number of host =  64
+Finished creating On/Off traffic
+Fininshed BCube 0 connection
+Fininshed BCube 1 connection
+Fininshed BCube 2 connection
+------------- 
+Start Simulation.. 
+BCube,k,txPackets,rxPackets,delaySum,jitterSum,lastDelay,lostPackets,timesForwarded,averageDelay,throughput
+BCube,4,389396,389396,+14593831279.0ns,+472410152.0ns,+2294080.0ns,0,429034,37359.7,510.159
+Simulation finished 
+Waf: Entering directory `/home/sksamal/990/ns-3-dev/build'
+Waf: Leaving directory `/home/sksamal/990/ns-3-dev/build'
+'build' finished successfully (2.553s)
+Number of BCube level =  3
+Number of switch in each BCube level =  36
+Number of host under each switch =  6
+Total number of host =  216
+Finished creating On/Off traffic
+Fininshed BCube 0 connection
+Fininshed BCube 1 connection
+Fininshed BCube 2 connection
+------------- 
+Start Simulation.. 
+BCube,k,txPackets,rxPackets,delaySum,jitterSum,lastDelay,lostPackets,timesForwarded,averageDelay,throughput
+BCube,6,1321154,1321152,+58446452959.0ns,+2004584536.0ns,+9143674.0ns,2,1933937,44253,510.487
+Simulation finished 
+Waf: Entering directory `/home/sksamal/990/ns-3-dev/build'
+Waf: Leaving directory `/home/sksamal/990/ns-3-dev/build'
+'build' finished successfully (2.197s)
+Number of BCube level =  3
+Number of switch in each BCube level =  64
+Number of host under each switch =  8
+Total number of host =  512
+Finished creating On/Off traffic
+Fininshed BCube 0 connection
+Fininshed BCube 1 connection
+Fininshed BCube 2 connection
+------------- 
+Start Simulation.. 
+BCube,k,txPackets,rxPackets,delaySum,jitterSum,lastDelay,lostPackets,timesForwarded,averageDelay,throughput
+BCube,8,3098367,3098365,+150638314044.0ns,+5451048953.0ns,+23628079.0ns,2,5257275,48604.9,504.772
+Simulation finished 
+Waf: Entering directory `/home/sksamal/990/ns-3-dev/build'
+Waf: Leaving directory `/home/sksamal/990/ns-3-dev/build'
+'build' finished successfully (2.200s)
+Number of BCube level =  3
+Number of switch in each BCube level =  100
+Number of host under each switch =  10
+Total number of host =  1000
+Finished creating On/Off traffic
+Fininshed BCube 0 connection
+Fininshed BCube 1 connection
+Fininshed BCube 2 connection
+------------- 
+Start Simulation.. 
+BCube,k,txPackets,rxPackets,delaySum,jitterSum,lastDelay,lostPackets,timesForwarded,averageDelay,throughput
+BCube,10,6055608,6055604,+297835632680.0ns,+11123394567.0ns,+46582587.0ns,4,10425101,49180.6,505.288
+Simulation finished 
+Waf: Entering directory `/home/sksamal/990/ns-3-dev/build'
+[ 889/2312] cxx: scratch/BCube.cc -> build/scratch/BCube.cc.6.o
+[2299/2312] cxxprogram: build/scratch/BCube.cc.6.o -> build/scratch/BCube
+Waf: Leaving directory `/home/sksamal/990/ns-3-dev/build'
+'build' finished successfully (4.359s)
+Number of BCube level =  3
+Number of switch in each BCube level =  144
+Number of host under each switch =  12
+Total number of host =  1728
+Finished creating On/Off traffic
+Fininshed BCube 0 connection
+Fininshed BCube 1 connection
+Fininshed BCube 2 connection
+------------- 
+Start Simulation.. 
+BCube,k,txPackets,rxPackets,delaySum,jitterSum,lastDelay,lostPackets,timesForwarded,averageDelay,throughput
+BCube,12,10535882,10535866,+525355367991.0ns,+19880726358.0ns,+81689665.0ns,16,18498214,49926.5,508.938
+Simulation finished 
+Waf: Entering directory `/home/sksamal/990/ns-3-dev/build'
+Waf: Leaving directory `/home/sksamal/990/ns-3-dev/build'
+'build' finished successfully (2.206s)
