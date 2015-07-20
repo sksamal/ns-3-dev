@@ -25,7 +25,7 @@
 
 //#define NEED_ANIMATION
 #define EXPORT_STATS
-//#define NEED_TRACE
+#define NEED_TRACE
 
 /*
 	- This work is based on help taken from "Towards Reproducible Performance Studies of Datacenter Network Architectures Using An Open-Source Simulation Approach" and HyScale Paper
@@ -250,7 +250,7 @@ int	main(int argc, char *argv[])
 		char *add;
 		add = toString(10, levelRand, swRand, hostRand);
 
-//		cout<<"Address="<<add<<endl;
+		cout<<"Address="<<add<<endl;
 
 	// Initialize On/Off Application with addresss of server
 		OnOffHelper oo = OnOffHelper("ns3::UdpSocketFactory",Address(InetSocketAddress(Ipv4Address(add), port))); // ip address of server
@@ -268,6 +268,7 @@ int	main(int argc, char *argv[])
 			randHost = rand() % num_hosts + 0;
 		} 
 
+		cout<<"RandHost="<<randHost<<endl;
 		// Install On/Off Application to the client
 		NodeContainer onoff;
 		onoff.Add(host.Get(randHost));

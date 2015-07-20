@@ -38,7 +38,7 @@
 
 	- Addressing scheme:
 		1. Address of host: 10.level.switch.0 /24 (level=0)
-		2. Address of BCube switch: 10.level.switch.0 /16
+		2. Address of SlimNet switch: 10.level.switch.0 /16
 
 	- On/Off Traffic of the simulation: addresses of client and server are randomly selected everytime	
 
@@ -98,33 +98,28 @@ char * toString(int a,int b, int c, int d){
 
 // Generate Address in reverse order - used for efficiency in Hyscale
 // Decimal to X base
- int genHyscaleAddressReverse(int number, int X,int *lsb) {
-   int result=0;
-   *lsb = number%X;
+ void genSlimNetAddress(int number, int X, int *address, int length) {
+   int i=0;
    while(number>0)  //number in base 10
    {
-     result = (number%X)+ result*10;  // reverse order
+     address[length-1-i]= (number%X);
      number = number/X;
+     i++;
    }
-   return result;
+
+   while(i<length)
+   { 
+     address[length-1-i]=0;
+     i++;
+   }
 }
 
 // Print SlimNet Address 
-   string FormattedSlimNetAdd(int number,int level) {
+   string FormattedSlimNetAdd(int *addr,int level) {
      char address[10]; // 10 levels
-     std::sprintf(address,"<%d",number%10); 
-     number=number/10;
-     while(number>0)
-     {    
-     std::sprintf(address,"%s,%d",address,number%10);
-     number=number/10;
-     level--;
-     }
-     while(level>0)
-     	{ 
-	  std::sprintf(address,"%s,0",address);
-	  level--;
-        }
+     std::sprintf(address,"<%d",addr[0]); 
+     for(int i=1;i<level;i++)
+	std::sprintf(address,"%s,%d",address,addr[i]);
      std::sprintf(address,"%s>",address);
      return string(address);
 }
@@ -155,11 +150,10 @@ int	main(int argc, char *argv[])
 	int num_agg = 8;		// number of switches per basic topology
 	int total_bridges = pow ( num_agg,k+1 );// number of switches per basic topology
 	int total_hosts = num_hosts*total_bridges; // Total number of hosts
-	int total_agg = total_bridges/num_agg; // Number of basic topologies
+//	int total_agg = total_bridges/num_agg; // Number of basic topologies
 	char filename [] = "statistics/SlimNet";
 	char traceFile [] = "statistics/SlimNet";
-	int addresses[total_hosts];  // A 8 base address for Hyscale
-	int lsb[total_hosts];  // To store lsb of base address for Hyscale
+	int addresses[total_hosts][k+1];  // A 8 base address for Hyscale
 
 	// String operations for files 
 	char buf[4];
@@ -176,16 +170,17 @@ int	main(int argc, char *argv[])
 	int temp = 0;		
 
 // Initialize the addresses and lsbs based on 8-bit base
-// Based on Hyscale address scheme
+// Based on SlimNet address scheme
 	for(i=0;i<total_hosts;i++)
-	  addresses[i]=	genHyscaleAddressReverse(i,num_agg,&lsb[i]);
+	  genSlimNetAddress(i,num_agg,addresses[i],k+1);
 
 // Define variables for On/Off Application
 // These values will be used to serve the purpose that addresses of server and client are selected randomly
 // Note: the format of host's address is 10.0.switch.host
 //
-	int levelRand = 0;	//	Always same for slimnet 
-	int swRand = 0;		// Random values for servers' address
+//	int levelRand = 0;	//	Always same for slimnet 
+//	int swRand = 0;		// Random values for servers' address
+	int bridgeRand = 0;
 	int hostRand = 0;	//
 	int randHost =0;	// Random values for clients' address
 
@@ -242,14 +237,24 @@ int	main(int argc, char *argv[])
 	for (i=0;i<total_hosts;i++){
 
 		// Randomly select a server
-		levelRand = rand() % total_agg ;
-		swRand = rand() % num_agg + 0;
+//		levelRand = rand() % total_agg ;
+//		swRand = rand() % num_agg + 0;
+		// Randomly select a server
+		bridgeRand = rand() % total_bridges + 0;
 		hostRand = rand() % num_hosts + 0;
 		hostRand = hostRand+2;
+ 		int NUMOCTET=254;
+		int toctet = bridgeRand % NUMOCTET+1;
+		bridgeRand = bridgeRand / NUMOCTET;
+		int soctet = (bridgeRand) % NUMOCTET+1;
+		bridgeRand = bridgeRand / NUMOCTET;
+		int foctet=(bridgeRand) % NUMOCTET+10;
 		char *add;
-		add = toString(10, levelRand, swRand, hostRand);
+		add = toString(foctet, soctet, toctet, hostRand);
 
-//		cout<<"Address="<<add<<endl;
+		cout<<"Server Address="<<add<<endl;
+		cout<<"HostRand="<<hostRand<<endl;
+		cout<<"BridgeRand="<<bridgeRand<<endl;
 
 	// Initialize On/Off Application with addresss of server
 		OnOffHelper oo = OnOffHelper("ns3::UdpSocketFactory",Address(InetSocketAddress(Ipv4Address(add), port))); // ip address of server
@@ -261,11 +266,14 @@ int	main(int argc, char *argv[])
 
 		// Randomly select a client
 		// to make sure that client and server are different
-		randHost = rand() % num_hosts + 0;		
-		int temp = num_hosts*swRand + (hostRand-2);
+		randHost = rand() % total_hosts + 0;		
+//		int temp = num_hosts*swRand + (hostRand-2);
+		int temp = bridgeRand * num_hosts  + (hostRand-2);
 		while (temp== randHost){
-			randHost = rand() % num_hosts + 0;
+	//		randHost = rand() % num_hosts + 0;
+			randHost = rand() % total_hosts + 0;
 		} 
+		cout<<"Client Host="<<randHost<<endl;
 
 		// Install On/Off Application to the client
 		NodeContainer onoff;
@@ -299,9 +307,7 @@ int	main(int argc, char *argv[])
 
 	temp = 0;
         int l=0;
-	for (i=0;i<total_agg;i++){
-	   for (j=0;j<num_agg;j++){
-		int k = i*num_agg+j;
+	for (int k=0;k<total_bridges;k++) {
 		NetDeviceContainer link1 = csma.Install(NodeContainer (switches.Get(k), bridges.Get(k)));
 		hostSwDevices[k].Add(link1.Get(0));			
 		bridgeDevices[k].Add(link1.Get(1));			
@@ -310,62 +316,126 @@ int	main(int argc, char *argv[])
 			NetDeviceContainer link2 = csma.Install(NodeContainer (host.Get(l), bridges.Get(k)));
 			hostSwDevices[k].Add(link2.Get(0));		
 			bridgeDevices[k].Add(link2.Get(1));			 
+//		cout<<"l="<<l<<endl;
 		}	
 		BridgeHelper bHelper;
 		bHelper.Install (bridges.Get(k), bridgeDevices[k]);	
 		//Assign address
-		char *subnet;
-		subnet = toString(10, i, j, 0);
+		char *subnet ;
+ 		int NUMOCTET=254;
+		int p=k;
+		int toctet=k%NUMOCTET+1;
+		p=p/NUMOCTET;
+		int soctet=(p)%NUMOCTET+1;
+		p=p/NUMOCTET;
+		int foctet=(p)%NUMOCTET+10;
+		subnet = toString(foctet, soctet, toctet, 0);
 //		std::cout <<"Subnet="<<subnet<<endl;
 		address.SetBase (subnet, "255.255.255.0");
 		ipContainer[k] = address.Assign(hostSwDevices[k]);	
 	}
-	}
-	std::cout <<"Fininshed connecting switches to hosts"<<"\n";
+	std::cout<<"Number Bridges="<<total_bridges<<endl;
+	std::cout <<"Finished connecting switches to hosts"<<"\n";
 
-//===============Interconnect the switches in Hyscale=============//
+//===============Interconnect the switches in SlimNet=============//
 //
 //	Not the efficient way though - Check each pair of switches to 
 //	see if they need to be connected based on the formula
 //
 	NetDeviceContainer ae[total_bridges][total_bridges]; 	
+//        Ipv4InterfaceContainer ipSwitchContainer[total_bridges][total_bridges];
+
 	for (i=0;i<total_bridges;i++){
 		int m=0;
-		for(j=0;j<total_bridges;j++) {
+		j=i+num_agg-(i%num_agg);
 
-			if(i==j) continue;
+		//Assign address
+		char *subnet, *base;
+ 		int NUMOCTET=254;
+		int p=i;
+		int toctet=(p)%NUMOCTET+1;
+		p=p/NUMOCTET;
+		int soctet=(p)%NUMOCTET+1;
+		p=p/NUMOCTET;
+		int foctet=(p)%NUMOCTET+10;
+		int baseip=num_hosts+2;
+
+		// Level 0 links
+		// i <-> i+1
+		 ae[i][m] = p2p.Install(switches.Get(i), switches.Get((i+1)%j));
+		 subnet = toString(foctet, soctet, toctet, 0);
+		 std::cout <<"Subnet="<<subnet<<" BaseIP="<<baseip<<endl;
+		 base = toString(0, 0, 0, baseip);
+		 address.SetBase (subnet, "255.255.255.0",base);
+		 /*ipSwitchContainer[i][m] =*/ address.Assign(ae[i][m]);	
+		 m++;
+	       	 cout<<"Add(i)=("<<i<<")="<<FormattedSlimNetAdd(addresses[i],k+1)<<",Add(j)=("<<(i+1)%j<<")="<<FormattedSlimNetAdd(addresses[(i+1)%j],k+1)<<""<<endl;
+		 cout<<FormattedSlimNetAdd(addresses[i],k+1)<<"-"<<FormattedSlimNetAdd(addresses[(i+1)%j],k+1)<<" connected"<<endl;
+		 // i <-> i+3
+		 ae[i][m] = p2p.Install(switches.Get(i), switches.Get((i+3)%j));
+		 baseip+=2;
+		 std::cout <<"Subnet="<<subnet<<" BaseIP="<<baseip<<endl;
+		 base = toString(0, 0, 0, baseip);
+		 address.SetBase (subnet, "255.255.255.0",base);
+		 /*ipSwitchContainer[i][m] =*/ address.Assign(ae[i][m]);	
+		 m++;
+	       	 cout<<"Add(i)=("<<i<<")="<<FormattedSlimNetAdd(addresses[i],k+1)<<",Add(j)=("<<(i+3)%j<<")="<<FormattedSlimNetAdd(addresses[(i+3)%j],k+1)<<""<<endl;
+		 cout<<FormattedSlimNetAdd(addresses[i],k+1)<<"-"<<FormattedSlimNetAdd(addresses[(i+3)%j],k+1)<<" connected"<<endl;
+
+		// Others
+		for(;j<total_bridges;j++) {
 
 			//cout<<"Evaluating i & j"<<i<<" "<<j<<endl;
-			int addI=addresses[i];
-			int lsbI=lsb[i];
-			int addJ=addresses[j];
-			int lsbJ=lsb[j];
-			cout<<"Add(i,addI)=("<<i<<","<<addI<<")="<<FormattedSlimNetAdd(addI,k)<<",Add(j)=("<<j<<","<<addJ<<")="<<FormattedSlimNetAdd(addJ,k)<<""<<endl;
-			//Recursive  - High Complexity - Unfortunate
-			while(addI>=0 && addJ>=0) {
-			  int msbI=addI%10;
-			  int msbJ=addJ%10;
+			int* addI=addresses[i];
+			int lsbI=addI[k];
+			int* addJ=addresses[j];
+			int lsbJ=addJ[k];
+//			cout<<"Add(i)=("<<i<<")="<<FormattedSlimNetAdd(addI,k+1)<<",Add(j)=("<<j<<")="<<FormattedSlimNetAdd(addJ,k+1)<<""<<endl;
+			if(lsbI!=lsbJ) continue;
 
-			//	As per definition
-			int fxy = (lsbI==0) ? (8-msbI) : ((msbI|lsbI)&(8-(msbI&lsbI)));
+			//Recursive  - High Complexity - Unfortunate
+			int t=0;
+			while(t<k+1) {
+			  int msbI=addI[t];
+			  int msbJ=addJ[t++];
+
+			//As per definition
+			int fxy = (lsbI==0) ? ((num_agg-1)-msbI) : ((msbI|lsbI)&((num_agg-1)-(msbI&lsbI)));
 			//cout<<lsbI<<" "<<msbI<<" "<<fxy<<endl;
   			   // Connect if either of this is true 
-  			   if(fxy==msbJ && lsbI==lsbJ) {
-				ae[i][m++] = p2p.Install(switches.Get(i), switches.Get(j));
-//			cout<<"Add(i)="<<FormattedSlimNetAdd(addI,k)<<",Add(j)="<<FormattedSlimNetAdd(addJ,k)<<endl;
-			//	cout<<i<<"-"<<j<<"connected"<<endl;
+  			   if(fxy==msbJ) {
+//				cout<<"total_bridges="<<total_bridges<<" i="<<i<<" m="<<m<<" ae="<<i*total_bridges+m;
+				ae[i][m] = p2p.Install(switches.Get(i), switches.Get(j));
+		 		baseip+=2;
+		 		std::cout <<"Subnet="<<subnet<<" BaseIP="<<baseip<<endl;
+		 		base = toString(0, 0, 0, baseip);
+		 		address.SetBase (subnet, "255.255.255.0",base);
+		 		/*ipSwitchContainer[i][m] =*/ address.Assign(ae[i][m]);	
+				m++;
+//			cout<<"Add(i)="<<FormattedSlimNetAdd(addI,k+1)<<",Add(j)="<<FormattedSlimNetAdd(addJ,k+1)<<endl;
+			cout<<FormattedSlimNetAdd(addresses[i],k+1)<<"-"<<FormattedSlimNetAdd(addresses[j],k+1)<<" connected"<<endl;
 			}			
-			addI= (addI==0) ? -1 : addI/10;
-			addJ= (addJ==0) ? -1 : addJ/10;
 		} 
 	}
-}
+} 
 
 //=========== Start the simulation ===========//
 //
 
 	std::cout << "Start Simulation.. "<<"\n";
 	for (i=0;i<total_hosts;i++){
+/*		Ptr<Application> appi = app[i].Get(0);
+	  	Ptr<Node> node = appi->GetNode();	
+		cout<<i<<"-Devices="<<node->GetNDevices ()<<endl;
+	 for(uint32_t j=0; j<node->GetNDevices (); j++) {
+		Ptr<NetDevice> localNetDevice = node->GetDevice (j);
+		Ptr<Ipv4> ipv4 = node->GetObject<Ipv4>();
+		uint32_t interfaceIndex = (ipv4)->GetInterfaceForDevice (node->GetDevice (j));
+		cout<<"j= "<<j<<" InterfaceIndex= "<<interfaceIndex<<" IsUp="<<(ipv4)->IsUp (interfaceIndex)<<" ";
+        	Ipv4InterfaceAddress iaddr = (ipv4)->GetAddress (interfaceIndex,0);
+        	Ipv4Address addri = iaddr.GetLocal (); 
+		cout<<i<<"-Client IP="<<addri<<endl;
+		} */
 		app[i].Start (Seconds (0.0));
   		app[i].Stop (Seconds (100.0));
 	}
@@ -375,6 +445,7 @@ int	main(int argc, char *argv[])
 //
   	FlowMonitorHelper flowmon;
 	Ptr<FlowMonitor> monitor = flowmon.InstallAll();
+	cout<<"FlowMonitor"<<endl;
 // Run simulation.
 //
 
@@ -390,9 +461,10 @@ int	main(int argc, char *argv[])
 #endif
 
   	NS_LOG_INFO ("Run Simulation.");
- // 	Simulator::Stop (Seconds(100.0));
-//  	Simulator::Run ();
-
+	cout<<"Run Simulation."<<endl;
+  	Simulator::Stop (Seconds(100.0));
+  	Simulator::Run ();
+	cout<<"Done sumulation."<<endl;
 	// Export statistics
 	Ptr<Ipv4FlowClassifier> classifier = DynamicCast<Ipv4FlowClassifier> (flowmon.GetClassifier ());
 	std::map<FlowId, FlowMonitor::FlowStats> stats = monitor->GetFlowStats ();
